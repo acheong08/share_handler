@@ -27,7 +27,7 @@ def api():
         return 'Unknown'
 
 def get():
-    return open('store,txt', 'r').read()
+    return open('store.txt', 'r').read()
 
 def put(data):
     # convert bytes data to string
