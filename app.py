@@ -19,8 +19,9 @@ rate_limit = Limiter(
 def api():
     if flask.request.method == 'GET':
         try:
-            username = flask.request.form['username']
-            password = flask.request.form['password']
+            # GET request fields
+            username = flask.request.args.get('username')
+            password = flask.request.args.get('password')
             if username != 'admin' or password != 'admin':
                 return 'Invalid credentials', 401
         except KeyError:
