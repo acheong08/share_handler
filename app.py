@@ -1,5 +1,7 @@
 import flask
-import flask_limiter
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 
 app = flask.Flask(__name__)
 
@@ -7,7 +9,11 @@ app = flask.Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 64*2
 
 # Use rate limit of 10 requests per second
-rate_limit = flask_limiter.Limiter(app, key_func=flask_limiter.util.get_remote_address, default_limits=["10 per second"])
+rate_limit = Limiter(
+    app, 
+    key_func=get_remote_address, 
+    default_limits=["10 per second"]
+)
 
 @app.route('/api', methods=['GET', 'PUT', 'DELETE'])
 def api():
