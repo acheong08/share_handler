@@ -18,6 +18,13 @@ rate_limit = Limiter(
 @app.route('/api', methods=['GET', 'PUT', 'DELETE'])
 def api():
     if flask.request.method == 'GET':
+        try:
+            username = flask.request.form['username']
+            password = flask.request.form['password']
+            if username != 'admin' or password != 'admin':
+                return 'Invalid credentials', 401
+        except KeyError:
+            return 'Missing username or password', 400
         return get()
     elif flask.request.method == 'PUT':
         return put(flask.request.data)
