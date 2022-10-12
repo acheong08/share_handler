@@ -30,12 +30,16 @@ def get():
     return open('store,txt', 'r').read()
 
 def put(data):
+    # convert bytes data to string
+    data = data.decode('utf-8')
     # append data to store.txt
     with open('store.txt', 'a') as f:
         f.write(data)
     return 'OK'
 
 def delete(data):
+    # convert bytes data to string
+    data = data.decode('utf-8')
     # delete data from store.txt
     with open('store.txt', 'r') as f:
         lines = f.readlines()
