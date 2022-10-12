@@ -31,7 +31,8 @@ def get():
 
 def put(data):
     # convert bytes data to string
-    data = data.decode('utf-8')
+    data = data.decode('utf-8') + '\n'
+    print(data)
     # append data to store.txt
     with open('store.txt', 'a') as f:
         f.write(data)
@@ -45,7 +46,7 @@ def delete(data):
         lines = f.readlines()
     with open('store.txt', 'w') as f:
         for line in lines:
-            if line != data:
+            if line.replace('\n', '') != data:
                 f.write(line)
     return 'OK'
 
