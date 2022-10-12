@@ -1,18 +1,13 @@
 import flask
+import flask_limiter
 
 app = flask.Flask(__name__)
 
 # Define size limit for POST requests (It should only be maximum of 64 bytes)
 app.config['MAX_CONTENT_LENGTH'] = 64*2
-# Prevent DDOS attacks by limiting the number of requests per second
-# 10 requests per second
-flask.g.rate_limit = 10
-# before_request is a decorator that is called before every request
-@app.before_request
-def limit_remote_addr():
-    flask.g.rate_limit = flask.g.rate_limit - 1
-    if flask.g.rate_limit < 0:
-        return 'Too many requests', 429
+
+# Use rate limit of 10 requests per second
+rate_limit = flask_limiter.Limiter(app, key_func=flask_limiter.util.get_remote_address, default_limits=["10 per second"])
 
 @app.route('/api', methods=['GET', 'PUT', 'DELETE'])
 def api():
